@@ -1,181 +1,132 @@
 'use client'
 
 import styles from './Searcher.module.scss'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import { Results } from './Results'
 
 const SearcherContext = createContext()
 
 export function Searcher() {
-    const [routeFrom, setRouteFrom] = useState('ALGE')
-    const [routeTo, setRouteTo] = useState('CEUT')
     const [departureDate, setDepartureDate] = useState('')
-    const [returnDate, setReturnDate] = useState('')
-    const [departureTime, setDepartureTime] = useState('04:00')
-    const [returnTime, setReturnTime] = useState('07:00')
+    const [departureTime, setDepartureTime] = useState('')
     const [adults, setAdults] = useState(1)
     const [children, setChildren] = useState(0)
     const [babies, setBabies] = useState(0)
     const [showResults, setShowResults] = useState(false)
+    const [selectedRoute, setSelectedRoute] = useState('ALGECEUT')
     
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         setShowResults(true)
     }
 
+    useEffect(() => {
+        const today = new Date().toISOString().slice(0, 10)
+        setDepartureDate(today)
+      }, [])
+
     const contextData = {
-        routeFrom,
-        routeTo,
+        selectedRoute,
         departureDate,
-        returnDate,
         departureTime,
-        returnTime,
         adults,
         children,
         babies
     }
 
+    const totalPassengers = adults + children + babies
+
     return (
-        <SearcherContext.Provider value={contextData}>
-            <section className={styles.form}>
-                <form onSubmit={handleFormSubmit}>
-                    <div>
-                        <label>Ruta - Desde:</label>
-                        <input
-                            type="text"
-                            value={routeFrom}
-                            onChange={(e) => setRouteFrom(e.target.value)}
-                            required
-                        />
+        <>
+            <section className={styles.searcher}>
+                <form onSubmit={handleFormSubmit} className={styles.form}>
+                    <div className={styles.inputContainer}>
+                        <div className={styles.rutes}>
+                            <label>Ruta</label>
+                            <select
+                                value={selectedRoute}
+                                onChange={(e) => setSelectedRoute(e.target.value)}
+                                required
+                            >
+                                <option value="ALGECEUT">Algeciras - Ceuta</option>
+                                <option value="CEUTALGE">Ceuta - Algeciras</option>
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <label>Ruta - Hasta:</label>
-                        <input
-                            type="text"
-                            value={routeTo}
-                            onChange={(e) => setRouteTo(e.target.value)}
-                            required
-                        />
+                    <div className={styles.inputContainer}>
+                        <div className={styles.input}>
+                            <label>Fecha de Salida</label>
+                            <input
+                                className={styles.date}
+                                type="date"
+                                value={departureDate}
+                                onChange={(e) => setDepartureDate(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className={styles.input}>
+                            <label>Hora de Salida</label>
+                            <select
+                                value={departureTime}
+                                onChange={(e) => setDepartureTime(e.target.value)}
+                                required
+                            >
+                                <option value="">Elige</option>
+                                <option value="04:00">06:00</option>
+                                <option value="05:00">07:00</option>
+                                <option value="06:00">08:00</option>
+                                <option value="07:00">09:00</option>
+                                <option value="08:00">10:00</option>
+                                <option value="09:00">11:00</option>
+                                <option value="10:00">12:00</option>
+                                <option value="11:00">13:00</option>
+                                <option value="12:00">14:00</option>
+                                <option value="13:00">15:00</option>
+                                <option value="14:00">16:00</option>
+                                <option value="15:00">17:00</option>
+                                <option value="16:00">18:00</option>
+                            </select>
+                        </div>
+                    </div> 
+                    <div className={styles.inputContainer}>
+                        <div className={styles.input}>
+                            <label>Adultos</label>
+                            <input
+                                type="number"
+                                value={adults}
+                                onChange={(e) => setAdults(parseInt(e.target.value))}
+                                min="1"
+                                required
+                            />
+                        </div>
+                        <div className={styles.input}>
+                            <label>Niños</label>
+                            <input
+                                type="number"
+                                value={children}
+                                onChange={(e) => setChildren(parseInt(e.target.value))}
+                                min="0"
+                                required
+                            />
+                        </div>
+                        <div className={styles.input}>
+                            <label>Bebés</label>
+                            <input
+                                type="number"
+                                value={babies}
+                                onChange={(e) => setBabies(parseInt(e.target.value))}
+                                min="0"
+                                required
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label>Fecha de Salida:</label>
-                        <input
-                            type="date"
-                            value={departureDate}
-                            onChange={(e) => setDepartureDate(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Hora de Salida:</label>
-                        <input
-                            type="text"
-                            value={departureTime}
-                            onChange={(e) => setDepartureTime(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Fecha de Vuelta:</label>
-                        <input
-                            type="date"
-                            value={returnDate}
-                            onChange={(e) => setReturnDate(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Hora de Vuelta:</label>
-                        <input
-                            type="text"
-                            value={returnTime}
-                            onChange={(e) => setReturnTime(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Adultos:</label>
-                        <input
-                            type="number"
-                            value={adults}
-                            onChange={(e) => setAdults(parseInt(e.target.value))}
-                            min="1"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Niños:</label>
-                        <input
-                            type="number"
-                            value={children}
-                            onChange={(e) => setChildren(parseInt(e.target.value))}
-                            min="0"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Bebés:</label>
-                        <input
-                            type="number"
-                            value={babies}
-                            onChange={(e) => setBabies(parseInt(e.target.value))}
-                            min="0"
-                            required
-                        />
-                    </div>
-                    <button type="submit">Buscar</button>
+                    <button className={styles.btn} type="submit">Buscar Ferry</button>
                 </form>
             </section>
             {showResults && ( 
-                <>
-                    <section>
-                        <p>Desde {routeFrom}</p>
-                        <p>Hasta {routeTo}</p>
-                        <p>Fecha salida:  {departureDate}</p>
-                        <p>Fecha llegada:  {returnDate}</p>
-                        <p>Adultos:  {adults}</p>
-                        <p>Niños:  {children}</p>
-                        <p>Bebés:  {babies}</p>
-                    </section>
-                    <section>
-                        <Results
-                            formData={{
-                                routeFrom,
-                                routeTo,
-                                departureDate,
-                                returnDate,
-                                adults,
-                                children,
-                                babies,
-                                departureTime,
-                                returnTime
-                            }}
-                            // departureAccommodationData={{
-                            //     routeFrom,
-                            //     routeTo,
-                            //     departureDate,
-                            //     adults,
-                            //     children,
-                            //     babies,
-                            //     departureTime,
-                            //     returnTime
-                            // }}
-                            // returnData={{
-                            //     routeFrom,
-                            //     routeTo,
-                            //     departureDate,
-                            //     returnDate,
-                            //     adults,
-                            //     children,
-                            //     babies,
-                            //     departureTime,
-                            //     returnTime
-                            // }}
-                        />
-                    </section>
-                </>
+                <Results formData={{ ...contextData, selectedRoute }} totalPassengers={totalPassengers} /> 
             )}
-        </SearcherContext.Provider>
+        </>
     )
 }
 

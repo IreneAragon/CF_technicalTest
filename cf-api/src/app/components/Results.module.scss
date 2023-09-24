@@ -1,0 +1,112 @@
+@import "../globals";
+
+.resultsContainer {
+    width: 95vw;
+    .resultCard {
+        border: 1px solid transparent;
+        border-radius: 8px;
+        box-shadow: 0 1rem 2rem rgba(0,0,0,.2);
+        margin: 1.5rem 0;
+        div {
+            padding: 0 1rem;
+        }
+        .resultHeaderCard {
+            display: flex;
+            justify-content: flex-end;
+            p {
+                color: $cf-white;
+                font-weight: 600;
+            }
+        }
+
+        &:nth-child(1) {
+            border-color: $cf-blue;
+            .resultHeaderCard {
+                background-color: $cf-blue;
+                border-radius: 6px 6px 0 0;
+
+            }
+        }
+        
+        &:nth-child(2) {
+            border-color: $cf-green;
+            .resultHeaderCard {
+                background-color: $cf-green;
+                border-radius: 6px 6px 0 0;
+            }
+        }
+
+        .resultShipInfo {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .resultRouteContainer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            p {
+                font-size: .75rem;
+                color: #776e6e;
+            }
+            .resultRouteInfoTime {
+                font-weight: 600;
+                color: $cf-black;
+                font-size: 14px;
+            }
+            .resultTimeToArrive {
+                text-align: center;
+                // width: 100%;
+            }
+        }
+        .resultsAccommodationContainer {
+            text-align: center;
+            border-top: 1px dotted $border-color;
+            padding: .5rem;
+            label {
+                font-size: .75rem;
+                color: #776e6e;
+            }
+            .selectAccommodation {
+                margin: 1rem;
+                border: unset;
+            }
+            .accommodationOption {
+                display: flex;
+                margin-bottom: .5rem;
+            }
+            .btnRoute {
+                cursor: pointer;
+                padding: 0.75rem 2rem;
+                margin-bottom: 0.5rem;
+                background-color: $cf-green;
+                border-radius: 14px;
+                border: 0;
+                color: $cf-white;
+                font-weight: 700;
+                font-family: inherit;
+                font-size: inherit;
+                &:hover {
+                    opacity: .8;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: $mobile-xl) {
+    .resultsContainer {
+        width: 80vw;
+    }
+}
+@media screen and (min-width: $tablet) {
+    .resultsContainer {
+        width: 80vw;
+    }
+}
+@media screen and (min-width: $laptop) {
+    .resultsContainer {
+        width: 1040px;
+    }
+}

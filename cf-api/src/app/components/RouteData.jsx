@@ -6,7 +6,7 @@ export function useRouteData(formData) {
   useEffect(() => {
     const fetchDeparture = async () => {
       try {
-        const response = await fetch(`https://tadpole.clickferry.app/departures?route=${formData.routeFrom}${formData.routeTo}&time=${formData.departureDate}`)
+        const response = await fetch(`https://tadpole.clickferry.app/departures?route=${formData.selectedRoute}&time=${formData.departureDate}`)
         const data = await response.json()
         setResultsDepartureData(data)
       } catch (error) {
@@ -15,7 +15,7 @@ export function useRouteData(formData) {
       }
     }
 
-    if (formData && formData.routeFrom && formData.routeTo && formData.departureDate) {
+    if (formData) {
       fetchDeparture()
     }
   }, [formData])

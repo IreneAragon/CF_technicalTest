@@ -1,17 +1,11 @@
 .header {
-    border: 1px solid red;
+    border-bottom: 1px solid lightgray;
     .nav {
         display: flex;
         list-style: none;
         gap: 32px;
-        border: 2px solid orange;
-        /* justify-content: space-between; */
+        a {
+            text-decoration: unset;
+        }
     }
 }
-
-// .nav {
-//     display: flex;
-//     list-style: none;
-//     gap: 32px;
-//     /* justify-content: space-between; */
-// }
